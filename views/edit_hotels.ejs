@@ -1,43 +1,45 @@
 <%layout("/layouts/boilerplate")%>
+<body>
+    <form action="/listings/edit/<%= data.id %>?_method=PUT" method="post">
+        <div class="row mt-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <p class="fs-2 text-secondary">Edit Listing</p>
+            <div class="col-8 offset-2">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input name="title" type="text" class="form-control" id="title" value="<%= data.title %>" placeholder="Write the title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" class="form-control" id="description" placeholder="Enter the description" required><%= data.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="imageUrl" class="form-label">Image URL</label>
+                    <input name="image_url" type="url" class="form-control" id="imageUrl" value="<%= data.image.url %>" placeholder="Paste the URL" required>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-3">
+                        <label for="price" class="form-label">Price (&#8377;)</label>
+                        <input name="price" type="number" class="form-control" id="price" value="<%= data.price %>" placeholder="Enter the price" required>
+                    </div>
+                    <div class="mb-3 col-9">
+                        <label for="location" class="form-label">Location</label>
+                        <input name="location" type="text" class="form-control" id="location" value="<%= data.location %>" placeholder="Enter the location of the hotel" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input name="country" type="text" class="form-control" id="country" value="<%= data.country %>" placeholder="Enter the country" required>
+                </div>
+                <div class="add-listing-button">
+                    <button type="submit" class="btn btn-danger shadow mt-2 rounded">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
-    <body>
-        <form action="/listings/edit/<%= data.id %>?_method=PUT" method="post">
-            <h2>
-                <label for="title">Title</label>
-                <input name="title" type="text" value="<%= data.title %>" required>
-            </h2>
-            <br>
-            <h2>
-                <label for="description">Description</label>
-                <textarea name="description" id="description" required><%= data.description %></textarea>
-            </h2>
-            <br>
-            <h2>
-                <label for="image_url">Image URL</label>
-                <input name="image_url" type="url" value="<%= data.image.url %>" required>
-            </h2>
-            <br>
-            <h2>
-                <label for="price">Price (&#8377;)</label>
-                <input name="price" type="number" value="<%= data.price %>" required>
-            </h2>
-            <br>
-            <h2>
-                <label for="location">Location</label>
-                <input name="location" type="text" value="<%= data.location %>" required>
-            </h2>
-            <br>
-            <h2>
-                <label for="country">Country</label>
-                <input name="country" type="text" value="<%= data.country %>" required>
-            </h2>
-            <br>
-            <button type="submit">Save Changes</button>
-        </form>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="" async defer></script>
-    </body>
-
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <script src="" async defer></script>
+</body>

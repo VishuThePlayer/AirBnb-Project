@@ -53,6 +53,8 @@ body{
     transform: translateY(2px);
 }
 
+
+
 @media screen and (min-width: 772px) {
     .footer-1b-incl{
         flex-direction: column !important;
