@@ -18,7 +18,7 @@ const StayNJoySchema = new Schema({
         },
         url: {
             type: String,
-            default: "https://media.cntraveller.in/wp-content/uploads/2017/02/1-alsisar-haveli-866x649.jpg",
+                default: "",
             set: (v) => v === "" ? "https://media.cntraveller.in/wp-content/uploads/2017/02/1-alsisar-haveli-866x649.jpg" : v
         }
     },
