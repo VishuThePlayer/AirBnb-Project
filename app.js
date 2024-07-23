@@ -38,7 +38,7 @@ const main = async () => {
 
 
 // 2) defining the mongo connection ul
-const MONGO_URL = 'mongodb+srv://vishu:Vishu@cluster0.tsxzkuz.mongodb.net/StayNJoy?retryWrites=true&w=majority';
+const MONGO_URL = process.env.MONGO_URL;
 //----------------------------------- Functionaly Area -------------------------------------//
 
 
