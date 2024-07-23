@@ -1,38 +1,37 @@
 <%layout("/layouts/boilerplate")%>
 <body>
     <form action="/listings/new" method="post">
-        <h2>
-            <label for="title">Title</label>
-            <input name="listing[title]" type="text" placeholder="Write the title" required>
-        </h2>
-        <br>
-        <h2>
-            <label for="description">Description</label>
-            <textarea name="listing[description]" id="description" placeholder="Enter the description"></textarea>
-        </h2>
-        <br>
-        <h2>
-            <label for="image">Image URL</label>
-            <input name="listing[image]" type="url" placeholder="Paste the URL" required>
-        </h2>
-        <br>
-        <h2>
-            <label for="price">Price (&#8377;)</label>
-            <input name="listing[price]" type="number" placeholder="Enter the price" required>
-        </h2>
-        <br>
-        <h2>
-            <label for="location">Location</label>
-            <input name="listing[location]" type="text" placeholder="Enter the location of the hotel" required>
-        </h2>
-        <br>
-        <h2>
-            <label for="country">Country</label>
-            <input name="listing[country]" type="text" placeholder="Enter the country" required>
-        </h2>
-        <br>
-        <button type="submit">Submit</button>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input name="listing[title]" type="text" class="form-control" id="title" placeholder="Write the title" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" class="form-control" id="description" placeholder="Enter the description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="imageUrl" class="form-label">Image URL</label>
+            <input name="listing[image][url]" type="url" class="form-control" id="imageUrl" placeholder="Paste the URL" required>
+        </div>
+        <div class="mb-3">
+            <label for="imageFilename" class="form-label">Image Filename</label>
+            <input name="listing[image][filename]" type="text" class="form-control" id="imageFilename" placeholder="Enter the filename (optional)">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price (&#8377;)</label>
+            <input name="listing[price]" type="number" class="form-control" id="price" placeholder="Enter the price" required>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input name="listing[location]" type="text" class="form-control" id="location" placeholder="Enter the location of the hotel" required>
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input name="listing[country]" type="text" class="form-control" id="country" placeholder="Enter the country" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
