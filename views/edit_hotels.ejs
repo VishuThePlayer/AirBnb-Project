@@ -1,0 +1,43 @@
+<%layout("/layouts/boilerplate")%>
+
+    <body>
+        <form action="/listings/edit/<%= data.id %>?_method=PUT" method="post">
+            <h2>
+                <label for="title">Title</label>
+                <input name="title" type="text" value="<%= data.title %>" required>
+            </h2>
+            <br>
+            <h2>
+                <label for="description">Description</label>
+                <textarea name="description" id="description" required><%= data.description %></textarea>
+            </h2>
+            <br>
+            <h2>
+                <label for="image_url">Image URL</label>
+                <input name="image_url" type="url" value="<%= data.image.url %>" required>
+            </h2>
+            <br>
+            <h2>
+                <label for="price">Price (&#8377;)</label>
+                <input name="price" type="number" value="<%= data.price %>" required>
+            </h2>
+            <br>
+            <h2>
+                <label for="location">Location</label>
+                <input name="location" type="text" value="<%= data.location %>" required>
+            </h2>
+            <br>
+            <h2>
+                <label for="country">Country</label>
+                <input name="country" type="text" value="<%= data.country %>" required>
+            </h2>
+            <br>
+            <button type="submit">Save Changes</button>
+        </form>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script src="" async defer></script>
+    </body>
+

@@ -1,0 +1,41 @@
+<%layout("/layouts/boilerplate")%>
+<body>
+    <form action="/listings/new" method="post">
+        <h2>
+            <label for="title">Title</label>
+            <input name="listing[title]" type="text" placeholder="Write the title" required>
+        </h2>
+        <br>
+        <h2>
+            <label for="description">Description</label>
+            <textarea name="listing[description]" id="description" placeholder="Enter the description"></textarea>
+        </h2>
+        <br>
+        <h2>
+            <label for="image">Image URL</label>
+            <input name="listing[image]" type="url" placeholder="Paste the URL" required>
+        </h2>
+        <br>
+        <h2>
+            <label for="price">Price (&#8377;)</label>
+            <input name="listing[price]" type="number" placeholder="Enter the price" required>
+        </h2>
+        <br>
+        <h2>
+            <label for="location">Location</label>
+            <input name="listing[location]" type="text" placeholder="Enter the location of the hotel" required>
+        </h2>
+        <br>
+        <h2>
+            <label for="country">Country</label>
+            <input name="listing[country]" type="text" placeholder="Enter the country" required>
+        </h2>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <script src="" async defer></script>
+</body>

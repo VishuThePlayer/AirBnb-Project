@@ -1,0 +1,41 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
+}
+
+.navbar{
+    background-color: rgb(255, 255, 255) !important; 
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+.navbar-1-top i{
+    transform: scale(1.5);
+    color: red;
+}
+
+.container form button{
+    width: 20px !important;
+}
+
+
+.footer-1b-incl{
+    padding-top: 20px;
+    display: flex;
+}
+
+.navbar-p{
+    display: flex;
+    padding-top: 15px;
+}
+
+@media screen and (min-width: 772px) {
+    .footer-1b-incl{
+        flex-direction: column !important;
+    }    
+}

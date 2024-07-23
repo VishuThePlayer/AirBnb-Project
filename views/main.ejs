@@ -1,0 +1,33 @@
+<%layout("/layouts/boilerplate")%>
+    <body>
+        <h2 class="text-center my-4">All Listings</h2>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                <% data.forEach(element => { %>
+                    <a class="listing-link main-con-a" href="/listings/<%=element.id %> ">
+                        <div class="container-fluid">
+                            <div class="card border-0">
+                                <img style="height: 20rem;" src="<%=element.image.url %>" class="card-img-top img-fluid rounded mx-auto d-block" alt="<%=element.image.filename %>">
+                                <div class="card-body">
+                                    <bold><h5 class="card-title"><%=element.title %>
+                                            <br>
+                                            &#8377;<%= element.price.toLocaleString("en-IN") %>
+                                    </h5></bold>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        </div>
+        <!-- <div class="btn">
+            <form action="/listings/new" method="get">
+                <button>+ NEW</button>
+            </form>
+        </div> -->
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script src="" async defer></script>
+    </body>

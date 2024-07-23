@@ -1,0 +1,30 @@
+<%layout("/layouts/boilerplate")%>
+<body>
+    <h2>Listing</h2>
+    <div class="data">
+        <ul>
+                <li>
+                    <h1><%= data.title %></h1>
+                    <img src="<%= data.image.url %>" alt="<%= data.title %>">
+                    <p>Price: &#8377;<%= data.price.toLocaleString("en-IN") %></p>
+                    <p>Description: <%= data.description %></p>
+                    <p>location: <%= data.location %></p>
+                    <p>Country: <%= data.country %></p>
+                </li>
+                
+                <div class="container d-flex  p-2">
+                    <form method="get" action="/listings/edit/<%=data.id %>">
+                        <button>Edit</button>
+                    </form>
+                    <form method="post" action="/listings/<%=data.id %>?_method=DELETE">
+                        <button>Delete</button>
+                    </form>
+                </div>
+        </ul>
+    </div>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <script src="/path/to/your/script.js" async defer></script>
+</body>
