@@ -145,5 +145,5 @@ app.get('/testing', async (req, res) => {
 
 //Running the server on 3000 port
 app.listen(3001, () => {
-    console.log(`Server Running on ${port} port`);
+    console.log(`Server Running on port`);
 })
