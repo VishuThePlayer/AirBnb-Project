@@ -126,21 +126,21 @@ app.get('/listings/:id', async (req, res) => {
 
 
 //adding fata to the database / for tesing or can be used to debug here
-// app.get('/testing', async (req, res) => {
-//     try {
-//         // First, clear the collection
-//         await listing.deleteMany({});
+app.get('/testing', async (req, res) => {
+    try {
+        // First, clear the collection
+        await listing.deleteMany({});
 
-//         // Then, insert new data
-//         await listing.insertMany(data);
+        // Then, insert new data
+        await listing.insertMany(data);
         
-//         console.log("Successfully saved");
-//         res.status(200).send("Entries successfully saved");
-//     } catch (err) {
-//         console.error("Error saving entries", err);
-//         res.status(500).send("An error occurred while saving the entries");
-//     }
-// });
+        console.log("Successfully saved");
+        res.status(200).send("Entries successfully saved");
+    } catch (err) {
+        console.error("Error saving entries", err);
+        res.status(500).send("An error occurred while saving the entries");
+    }
+});
 
 
 //Running the server on 3000 port
