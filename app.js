@@ -8,10 +8,11 @@ const { data: data } = require('./models/random_gen_data/data');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
 
 // ------------------------------------rules---------------------------------------------
  
-const port = 3001;  
 const app = express();  
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -26,15 +27,13 @@ app.engine('ejs', ejsMate);
 // 1) defining asynchronous function to establish the mongo server
 const main = async () => {
   try {
-    await mongoose.connect(MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(MONGO_URL);
     console.log('Successfully connected to MongoDB');
   } catch (error) {
     console.error('Error connecting to MongoDB', error);
   }
 };
+
 
 
 // 2) defining the mongo connection ul
