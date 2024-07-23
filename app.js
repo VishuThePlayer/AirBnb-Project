@@ -9,7 +9,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 require('dotenv').config();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // ------------------------------------rules---------------------------------------------
  
