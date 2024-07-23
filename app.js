@@ -24,24 +24,26 @@ app.engine('ejs', ejsMate);
 //---------------------------- Establishing Mongo COnnection ------------------------------
 
 // 1) defining asynchronous function to establish the mongo server
-const main = async () => {  
-    await mongoose.connect(MONGO_URL);  
-}
+const main = async () => {
+  try {
+    await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Successfully connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB', error);
+  }
+};
+
 
 // 2) defining the mongo connection ul
-const MONGO_URL = 'mongodb://localhost:27017/StayNJoy';
-
+const MONGO_URL = 'mongodb+srv://vishu:Vishu@cluster0.tsxzkuz.mongodb.net/StayNJoy?retryWrites=true&w=majority';
 //----------------------------------- Functionaly Area -------------------------------------//
 
 
 // 1) calling the asynchronous function to connect to database
-main().then(() => {
-    console.log(`Connection to StayNEnjoy database is established`);
-})
-.catch((err) => {
-    console.log(`Error Occured ${err}`);
-})
-
+main();
 
 
 //----------------------------------- Routes ---------------------------------------------//
