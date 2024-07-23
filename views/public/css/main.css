@@ -4,9 +4,14 @@ body{
     font-family: "Plus Jakarta Sans", sans-serif !important;
     font-optical-sizing: auto !important;
     font-style: normal !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
 }
-
-.navbar{
+.container{
+    flex: 1;
+}
+.navbar{ 
     background-color: rgb(255, 255, 255) !important; 
 }
 
@@ -19,9 +24,7 @@ body{
     color: red;
 }
 
-.container form button{
-    width: 20px !important;
-}
+
 
 
 .footer-1b-incl{
@@ -32,6 +35,22 @@ body{
 .navbar-p{
     display: flex;
     padding-top: 15px;
+}
+
+.add-listing-button button{
+    display: flex;
+    background-color: red;
+    border-radius: 10px;
+    border: 1px solid red;
+    transition: transform 0.2s;
+}
+
+.add-listing-button:hover button{
+    transform: translateY(-2px);
+}
+
+.add-listing-button:active button{
+    transform: translateY(2px);
 }
 
 @media screen and (min-width: 772px) {
