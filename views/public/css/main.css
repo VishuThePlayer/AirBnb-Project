@@ -38,11 +38,11 @@ body{
 }
 
 .add-listing-button button{
-    display: flex;
     background-color: red;
     border-radius: 10px;
     border: 1px solid red;
     transition: transform 0.2s;
+    text-align: center !important;
 }
 
 .add-listing-button:hover button{
@@ -51,9 +51,8 @@ body{
 
 .add-listing-button:active button{
     transform: translateY(2px);
+    background-color: rgba(255, 0, 0, 0.776) !important; 
 }
-
-
 
 @media screen and (min-width: 772px) {
     .footer-1b-incl{

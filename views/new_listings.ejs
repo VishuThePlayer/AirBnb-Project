@@ -1,9 +1,9 @@
 <%layout("/layouts/boilerplate")%>
 <body>
-    <form action="/listings/new" method="post">
-        <div class="row mt-4 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <p class="fs-2 text-secondary">Add New Listing</p>
-            <div class="col-8 offset-">
+    <form class="offset-1" action="/listings/new" method="post">
+        <div class="row shadow p-3 mt-5 mb-5 me-4 bg-body-tertiary rounded">
+            <p class="fs-2 text-secondary text-center">Add New Listing</p>
+            <div class="col-8 offset-2">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input name="listing[title]" type="text" class="form-control" id="title" placeholder="Write the title" required>
@@ -21,11 +21,11 @@
                     <input name="listing[image][filename]" type="text" class="form-control" id="imageFilename" placeholder="Enter the filename (optional)">
                 </div>
                <div class="row">
-                    <div class="mb-3 col-3">
+                    <div class="mb-3 col-6">
                         <label for="price" class="form-label">Price (&#8377;)</label>
                         <input name="listing[price]" type="number" class="form-control" id="price" placeholder="Enter the price" required>
                     </div>
-                    <div class="mb-3 col-9">
+                    <div class="mb-3 col-6">
                         <label for="location" class="form-label">Location</label>
                         <input name="listing[location]" type="text" class="form-control" id="location" placeholder="Enter the location of the hotel" required>
                     </div>
@@ -34,9 +34,11 @@
                         <input name="listing[country]" type="text" class="form-control" id="country" placeholder="Enter the country" required>
                     </div>
                </div>
-                <div class="add-listing-button">
-                    <button type="submit" class="btn btn-danger shadow mt-2 rounded" >Submit</button>
-                </div>
+               <div class="container mt-3">
+                    <div class="new-listing-button-sumbit add-listing-button">
+                        <button type="submit" class="btn btn-danger shadow mt-2 rounded w-100 w-md-auto text-center">Submit</button>
+                    </div>
+                 </div>       
             </div>
         </div>
     </form>
