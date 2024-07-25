@@ -11,21 +11,21 @@ const ejsMate = require('ejs-mate');
 require('dotenv').config();
 const PORT = 3000;
 
-
 // ------------------------------------rules---------------------------------------------
  
 const app = express();  
 app.set('view engine', 'ejs');
+app.set('trust proxy', true);
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, '/views/public')))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 
-
-//---------------------------- Establishing Mongo COnnection ------------------------------
+//---------------------------- Establishing Mongo Connection ------------------------------
 
 // 1) defining asynchronous function to establish the mongo server
+const MONGO_URL = process.env.MONGO_URL;
 const main = async () => {
   try {
     await mongoose.connect(MONGO_URL);
@@ -35,33 +35,26 @@ const main = async () => {
   }
 };
 
-
-
-// 2) defining the mongo connection ul
-const MONGO_URL = process.env.MONGO_URL;
-//----------------------------------- Functionaly Area -------------------------------------//
-
-
-// 1) calling the asynchronous function to connect to database
+// 2) calling the asynchronous function to connect to database
 main();
 
 //----------------------------------- Routes ---------------------------------------------//
 
 app.use((req, res, next) => {
     req.time = new Date(Date.now()).toDateString();
-    var ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
-    console.log(req.method, req.hostname, req.path, req.time, ip)
-    next()
+    const ip = req.ip; // Express handles this well with trust proxy
+    console.log(req.method, req.hostname, req.path, req.time, ip);
+    next();
 });
 
-//defining routes and the logic
+// Defining routes and the logic
 app.get('/', (req, res) => {
-    res.send("Server is running Sucessfully");
-})
+    res.send("Server is running Successfully");
+});
 
-app.get('/listings' , async (req, res) => {
+app.get('/listings', async (req, res) => {
     const alllisting = await listing.find({});
-    res.render('main',{data: alllisting});
+    res.render('main', { data: alllisting });
 });
 
 app.get('/listings/new', (req, res) => {
@@ -100,14 +93,12 @@ app.put('/listings/edit/:id', async (req, res) => {
     }
 });
 
-
 app.get('/listings/edit/:id', async (req, res) => {
     const id = req.params.id;
     console.log(`/listings/edit/${id}`);
     const listing_found = await listing.findById(id);
-    res.render('edit_hotels',{data: listing_found});
+    res.render('edit_hotels', { data: listing_found });
 });
-
 
 app.delete('/listings/:id', async (req, res) => {
     const id = req.params.id;  // Correctly access the id from req.params
@@ -121,17 +112,15 @@ app.delete('/listings/:id', async (req, res) => {
     }
 });
 
-
 app.get('/listings/:id', async (req, res) => {
     const id = req.params.id;
     console.log(id);
     const listing_found = await listing.findById(id);
     console.log(listing_found);
-    res.render('hotels',{ data: listing_found });
+    res.render('hotels', { data: listing_found });
 });
 
-
-//adding fata to the database / for tesing or can be used to debug here
+// Adding data to the database / for testing or can be used to debug here
 app.get('/testing', async (req, res) => {
     try {
         // First, clear the collection
@@ -148,8 +137,18 @@ app.get('/testing', async (req, res) => {
     }
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.log("Error Occurred", err);
+    res.status(err.status || 500).send("An error occurred: " + err.message);
+});
 
-//Running the server on 3000 port
+// Catch-all route for undefined routes
+app.use((req, res) => {
+    res.status(404).send("Sorry, we can't find that!");
+});
+
+// Running the server on port 3000
 app.listen(PORT, () => {
     console.log(`Server Running on ${PORT} port`);
-})
+});
