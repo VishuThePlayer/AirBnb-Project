@@ -11,6 +11,7 @@ const ejsMate = require('ejs-mate');
 require('dotenv').config();
 const PORT = 3000;
 
+
 // ------------------------------------rules---------------------------------------------
  
 const app = express();  
@@ -47,13 +48,18 @@ main();
 
 //----------------------------------- Routes ---------------------------------------------//
 
+app.use((req, res, next) => {
+    req.time = new Date(Date.now()).toDateString();
+    console.log(req.method, req.hostname, req.path, req.time)
+    next()
+});
 
 //defining routes and the logic
 app.get('/', (req, res) => {
     res.send("Server is running Sucessfully");
 })
 
-app.get('/listings', async (req, res) => {
+app.get('/listings' , async (req, res) => {
     const alllisting = await listing.find({});
     res.render('main',{data: alllisting});
 });

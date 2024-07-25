@@ -11,12 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "bootstrap": "^5.3.3",
     "dotenv": "^10.0.0",
     "ejs-mate": "^4.0.0",
     "express": "^4.19.2",
     "method-override": "^3.0.0",
     "mongoose": "^8.5.1",
-    "override-method": "^3.0.0"
+    "override-method": "^3.0.0",
+    "purgecss": "^6.0.0"
   }
 }
