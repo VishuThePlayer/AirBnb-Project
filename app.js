@@ -45,12 +45,12 @@ const MONGO_URL = process.env.MONGO_URL;
 // 1) calling the asynchronous function to connect to database
 main();
 
-
 //----------------------------------- Routes ---------------------------------------------//
 
 app.use((req, res, next) => {
     req.time = new Date(Date.now()).toDateString();
-    console.log(req.method, req.hostname, req.path, req.time)
+    var ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
+    console.log(req.method, req.hostname, req.path, req.time, ip)
     next()
 });
 
