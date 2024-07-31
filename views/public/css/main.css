@@ -54,6 +54,38 @@ body{
     background-color: rgba(255, 0, 0, 0.776) !important; 
 }
 
+.alert{
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    animation: 1.1s linear 0s 1 sun-rise;
+}
+.alert-svg{
+    transform: scale(0.3);
+    width: 10%;
+}
+
+.alert-svg + div{
+    margin-right: 240px;
+    font-size: 30px;
+}
+
+
+@keyframes sun-rise {
+    0% {
+      display: flex;
+      transform: translateY(-70vh);
+    }
+    50%{
+        transform: translateY(-40vh);
+    }
+    100% {
+      /* returns the sun to its default position */
+      transform: translateY(0);
+    }
+}
+
 @media screen and (min-width: 772px) {
     .footer-1b-incl{
         flex-direction: column !important;
