@@ -1,6 +1,6 @@
 # AirBnB Project
 
-![AirBnB Project](path/to/logo.png)
+![AirBnB Project](logo.png)
 
 ## Overview
 
