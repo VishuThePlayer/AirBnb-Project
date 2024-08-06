@@ -25,6 +25,7 @@ body{
 }
 
 
+/* navbar */
 
 
 .footer-1b-incl{
@@ -53,6 +54,13 @@ body{
     transform: translateY(2px);
     background-color: rgba(255, 0, 0, 0.776) !important; 
 }
+
+main-logo{
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* alert */
 
 .alert{
     display: flex !important;

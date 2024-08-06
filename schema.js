@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { ObjectId } = require('mongodb');
 
 const SchemaList = Joi.object({
     listing: Joi.object({
@@ -7,12 +6,18 @@ const SchemaList = Joi.object({
         description: Joi.string().required(),
         price: Joi.number().required(),
         image: Joi.object({
-            url: Joi.string().required().allow("",null),
-            name: Joi.string(),
+            url: Joi.string().required().allow("", null),
+            name: Joi.string()
         }),
         location: Joi.string().required(),
         country: Joi.string().required(),
     }).required()
 });
 
-module.exports = SchemaList;
+const ReviewSchemaList = Joi.object({
+    comment: Joi.string().required(),
+    rating: Joi.number().min(1).max(5).required(),
+    createdAt: Joi.date().default(Date.now)
+});
+
+module.exports = {SchemaList, ReviewSchemaList};

@@ -1,34 +1,68 @@
-<%layout("/layouts/boilerplate")%>
-    <title>StayNJoy Hotels</title>
-    <body>
-        <h2 class="text-center my-4">All Listings</h2>
-        <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                <% data.forEach(element => { %>
-                    <a class="listing-link main-con-a" href="/listings/<%=element.id %> ">
-                        <div class="container-fluid">
-                            <div class="card border-0">
-                                <img style="height: 20rem;" src="<%=element.image.url %>" class="card-img-top img-fluid rounded mx-auto d-block" alt="<%=element.image.filename %>">
-                                <div class="card-body">
-                                    <bold><h5 class="card-title"><%=element.title %>
-                                            <br>
-                                            &#8377;<%= element.price.toLocaleString("en-IN") %>
-                                    </h5></bold>
-                                </div>
+<% layout("/layouts/boilerplate") %>
+<title>StayNJoy Hotels</title>
+<body>
+    <h2 class="text-center my-4 fw-bold animated-title">All Listings</h2>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <% data.forEach(element => { %>
+                <div class="col card-area">
+                    <a class="listing-link main-con-a text-decoration-none" href="/listings/<%= element.id %>">
+                        <div class="card border-0 shadow-sm h-100 animated-card">
+                            <img style="height: 20rem; object-fit: cover;" src="<%= element.image.url %>" class="card-img-top img-fluid rounded" alt="<%= element.image.filename %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= element.title %></h5>
+                                <p class="card-text">&#8377;<%= element.price.toLocaleString("en-IN") %></p>
                             </div>
                         </div>
                     </a>
-                <% }) %>
-            </div>
+                </div>
+            <% }) %>
         </div>
-        <!-- <div class="btn">
-            <form action="/listings/new" method="get">
-                <button>+ NEW</button>
-            </form>
-        </div> -->
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="" async defer></script>
-    </body>
+    </div>
+    
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <script src="" async defer></script>
+    <style>
+        .animated-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .animated-card {
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* .card-area {
+            transition: transform 0.5s ease-out !important;
+        }
+
+        .card-area:hover .card {
+            transform: scale(1.05) !important;
+        } */
+    </style>
+</body>

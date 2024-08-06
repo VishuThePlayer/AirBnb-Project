@@ -7,7 +7,9 @@ const { data } = require('./models/random_gen_data/data'); // Ensure this path i
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const SchemaList = require('./schema'); // Ensure this path is correct
+
+const { SchemaList, ReviewSchemaList } = require('./schema'); // Ensure this path is correct
+const reviewSchema = require('./models/reviewSchema');
 require('dotenv').config();
 
 const PORT = 3000;
@@ -32,6 +34,14 @@ const validateSchena = (req, res, next) => {
     let errmessage = error.details.map((e) => e.message).join(",");
     if(error){
         next(new ExpressError(400, errmessage));
+    }else{
+        next()
+    }
+};
+const validateReview = (req, res, next) => {
+    const { error } = ReviewSchemaList.validate(req.body);
+    if(error){
+        next(new ExpressError(400, error));
     }else{
         next()
     }
@@ -92,6 +102,45 @@ app.post('/listings/new', validateSchena, asyncWrap(async (req, res, next) => {
     res.redirect('/listings');
 }));
 
+
+app.post('/listings/:id/review', validateReview, async (req, res, next) => {
+    const { rating, comment } = req.body;
+    const { id } = req.params;
+
+    console.log(`User left a review for ${id}, comment: ${comment}, rating: ${rating}`);
+
+    try {
+        const reviewSave = new reviewSchema({
+            comment: comment,
+            rating: rating
+        });
+
+        let result = await reviewSave.save();
+        console.log(result);
+
+        if (!result) {
+            throw new ExpressError(401, "Error Occurred");
+        }
+
+        const listingFind = await listing.findById(id);
+
+        if (!listingFind) {
+            throw new ExpressError(404, "Listing not found");
+        }
+
+        listingFind.reviews.push(result); // Assuming 'reviews' is an array in listing schema
+        let res1 = await listingFind.save();
+        console.log(res1);
+
+        console.log(`Review was added successfully ${result}`);
+        res.redirect(`/listings/${id}`)
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
 app.get('/listings/edit/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const listingFound = await listing.findById(id);
@@ -127,7 +176,7 @@ app.put('/listings/edit/:id', asyncWrap(async (req, res, next) => {
 
 app.get('/listings/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
-    const listingFound = await listing.findById(id);
+    const listingFound = await listing.findById(id).populate("reviews");
     if (!listingFound) {
         return next(new ExpressError(404, 'Listing Not Found'));
     }
@@ -147,8 +196,9 @@ app.delete('/listings/:id', asyncWrap(async (req, res, next) => {
 app.get('/testing', asyncWrap(async (req, res) => {
     try {
         await listing.deleteMany({});
-        await listing.insertMany(data);
-        res.status(200).send('Entries successfully saved');
+        await reviewSchema.deleteMany({});
+        let result = await listing.insertMany(data);
+        res.status(200).send(result);
     } catch (err) {
         res.status(500).send(`An error occurred while saving the entries: ${err.message}`);
     }
