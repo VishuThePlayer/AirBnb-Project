@@ -34,6 +34,8 @@
                     <textarea name="comment" class="form-control" id="comment"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <div class="col-md-9">
                 <div class="row mt-5">
                     <% if (data.reviews.length > 0) { %>
                         <% data.reviews.forEach((review, index) => { %>
@@ -46,6 +48,11 @@
                                         <h5 class="card-title">Jane Doe</h5> <!-- Replace with review.author if available -->
                                         <p class="card-text"><%= review.comment %></p>
                                         <p class="card-text">Rating: <%= review.rating %></p> <!-- Add if rating is available -->
+                                        <div class="d-flex justify-content-between mt-4">
+                                            <form method="post" action="/listings/<%= data.id %>/review/<%=review.id%>?_method=DELETE">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -53,10 +60,8 @@
                     <% } else { %>
                         <p class="text-center">No reviews yet! Be the first to give one</p>
                     <% } %>
-                
                 </div>
-            </form>
-            
+            </div>
         </div>
 
         <!-- Reviews Display -->

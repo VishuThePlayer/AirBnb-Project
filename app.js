@@ -11,10 +11,11 @@ const ejsMate = require('ejs-mate');
 const { SchemaList, ReviewSchemaList } = require('./schema'); // Ensure this path is correct
 const reviewSchema = require('./models/reviewSchema');
 require('dotenv').config();
-
 const PORT = 3000;
 const ExpressError = require('./ExpressError/ExpressError');
 const MONGO_URL = process.env.MONGO_URL;
+const listingsRouter = require('./routes/listings');
+const reviewsRouter = require('./routes/reviews');
 
 //--------------------------------- Initializing Express App ---------------------------------//
 
@@ -29,23 +30,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 
-const validateSchena = (req, res, next) => {
-    const { error } = SchemaList.validate(req.body);
-    let errmessage = error.details.map((e) => e.message).join(",");
-    if(error){
-        next(new ExpressError(400, errmessage));
-    }else{
-        next()
-    }
-};
-const validateReview = (req, res, next) => {
-    const { error } = ReviewSchemaList.validate(req.body);
-    if(error){
-        next(new ExpressError(400, error));
-    }else{
-        next()
-    }
-};
 
 //--------------------------------- Establishing MongoDB Connection ---------------------------------//
 
@@ -60,16 +44,13 @@ const main = async () => {
 
 main();
 
-//--------------------------------- Utility Functions ---------------------------------//
+//--------------------------------- Routes ---------------------------------//
 
 function asyncWrap(fn) {
     return (req, res, next) => {
         Promise.resolve(fn(req, res, next)).catch(next);
     };
 }
-
-//--------------------------------- Routes ---------------------------------//
-
 
 app.use((req, res, next) => {
     try {
@@ -82,116 +63,8 @@ app.use((req, res, next) => {
     }
 });
 
-
-app.get('/listings', asyncWrap(async (req, res, next) => {
-    const allListings = await listing.find({});
-    if (!allListings) {
-        return next(new ExpressError(500, 'Validation Error'));
-    }
-    res.render('main', { data: allListings });
-}));
-
-app.get('/listings/new', (req, res) => {
-    res.render('new_listings');
-});
-
-app.post('/listings/new', validateSchena, asyncWrap(async (req, res, next) => {
-
-    const newListing = new listing(req.body.listing);
-    await newListing.save();
-    res.redirect('/listings');
-}));
-
-
-app.post('/listings/:id/review', validateReview, async (req, res, next) => {
-    const { rating, comment } = req.body;
-    const { id } = req.params;
-
-    console.log(`User left a review for ${id}, comment: ${comment}, rating: ${rating}`);
-
-    try {
-        const reviewSave = new reviewSchema({
-            comment: comment,
-            rating: rating
-        });
-
-        let result = await reviewSave.save();
-        console.log(result);
-
-        if (!result) {
-            throw new ExpressError(401, "Error Occurred");
-        }
-
-        const listingFind = await listing.findById(id);
-
-        if (!listingFind) {
-            throw new ExpressError(404, "Listing not found");
-        }
-
-        listingFind.reviews.push(result); // Assuming 'reviews' is an array in listing schema
-        let res1 = await listingFind.save();
-        console.log(res1);
-
-        console.log(`Review was added successfully ${result}`);
-        res.redirect(`/listings/${id}`)
-    } catch (err) {
-        next(err);
-    }
-});
-
-
-
-app.get('/listings/edit/:id', asyncWrap(async (req, res, next) => {
-    const { id } = req.params;
-    const listingFound = await listing.findById(id);
-    if (!listingFound) {
-        return next(new ExpressError(404, 'Listing Not Found Kindly Return Back'));
-    }
-    res.render('edit_hotels', { data: listingFound });
-}));
-
-app.put('/listings/edit/:id', asyncWrap(async (req, res, next) => {
-    const { id } = req.params;
-    const { title, description, image_url, price, location, country } = req.body;
-
-    try {
-        const updatedListing = await listing.findByIdAndUpdate(id, {
-            title,
-            description,
-            image: { url: image_url },
-            price,
-            location,
-            country
-        }, { new: true });
-
-        if (!updatedListing) {
-            return next(new ExpressError(404, 'Listing Not Found'));
-        }
-
-        res.redirect(`/listings/${id}`);
-    } catch (err) {
-        res.status(500).send(`Error Occurred While Updating: ${err.message}`);
-    }
-}));
-
-app.get('/listings/:id', asyncWrap(async (req, res, next) => {
-    const { id } = req.params;
-    const listingFound = await listing.findById(id).populate("reviews");
-    if (!listingFound) {
-        return next(new ExpressError(404, 'Listing Not Found'));
-    }
-    res.render('hotels', { data: listingFound });
-}));
-
-app.delete('/listings/:id', asyncWrap(async (req, res, next) => {
-    const { id } = req.params;
-    try {
-        await listing.findByIdAndDelete(id);
-        res.redirect('/listings');
-    } catch (err) {
-        res.status(500).send(`Error Occurred While Deleting: ${err.message}`);
-    }
-}));
+app.use('/listings', listingsRouter);
+app.use('/:id/review', reviewsRouter);
 
 app.get('/testing', asyncWrap(async (req, res) => {
     try {

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const reviewSchema = require('./reviewSchema')
 
 const StayNJoySchema = new Schema({
     title: {
@@ -40,30 +41,27 @@ const StayNJoySchema = new Schema({
     }]
 });
 
+StayNJoySchema.pre('findOneAndDelete', function (next) {
+    console.log("Starting Deletion Process");
+    next();
+});
+
+// Post-hook for findOneAndDelete
+StayNJoySchema.post('findOneAndDelete', async function (doc) {
+    if (doc && doc.reviews && doc.reviews.length) {
+        try {
+            await reviewSchema.deleteMany({
+                _id: { $in: doc.reviews }
+            });
+            console.log("Deleted reviews:", doc.reviews);
+        } catch (err) {
+            console.error("Error deleting reviews:", err);
+        }
+    }
+});
 
 // Create the model from the schema
 const StayNJoy = model('StayNJoy', StayNJoySchema);
-
-StayNJoySchema.pre('findOneAndDelete', async function (next) {
-    console.log("Starting Deletion Process");
-    next();  // Ensure to call next() to proceed with the deletion process
-});
-
-StayNJoySchema.post('findOneAndDelete', async function (doc) {
-    console.log("Deletion Process Completed");
-    setTimeout(async () => {
-        if (doc.reviews && doc.reviews.length) {
-            try {
-                let res = await reviews.deleteMany({
-                    _id: { $in: doc.reviews }
-                });
-                console.log("Deleted orders:", res);
-            } catch (err) {
-                console.error("Error deleting orders:", err);
-            }
-        }
-    }, 2000);
-});
 
 // Export the model
 module.exports = StayNJoy;
