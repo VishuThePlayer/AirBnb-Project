@@ -7,12 +7,9 @@ const { data } = require('./models/random_gen_data/data'); // Ensure this path i
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-
-const { SchemaList, ReviewSchemaList } = require('./schema'); // Ensure this path is correct
 const reviewSchema = require('./models/reviewSchema');
 require('dotenv').config();
 const PORT = 3000;
-const ExpressError = require('./ExpressError/ExpressError');
 const MONGO_URL = process.env.MONGO_URL;
 const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
@@ -64,7 +61,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/listings', listingsRouter);
-app.use('/:id/review', reviewsRouter);
+app.use('/listings/:id/review', reviewsRouter);
 
 app.get('/testing', asyncWrap(async (req, res) => {
     try {

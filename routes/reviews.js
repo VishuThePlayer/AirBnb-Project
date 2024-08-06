@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
 const reviewSchema = require('../models/reviewSchema'); // Ensure this path is correct
-const { SchemaList, ReviewSchemaList } = require('../schema'); // Ensure this path is correct
+const {ReviewSchemaList } = require('../schema'); // Ensure this path is correct
 
 // Helper function to handle async errors
 function asyncWrap(fn) {
@@ -12,15 +12,7 @@ function asyncWrap(fn) {
     };
 }
 
-// Middleware to validate Schema
-const validateSchema = (req, res, next) => {
-    const { error } = SchemaList.validate(req.body);
-    if (error) {
-        let errmessage = error.details.map((e) => e.message).join(",");
-        return next(new ExpressError(400, errmessage));
-    }
-    next();
-};
+
 
 // Middleware to validate Review Schema
 const validateReview = (req, res, next) => {

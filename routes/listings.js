@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
-const reviewSchema = require('../models/reviewSchema'); // Ensure this path is correct
 const { SchemaList, ReviewSchemaList } = require('../schema'); // Ensure this path is correct
 
 // Helper function to handle async errors
