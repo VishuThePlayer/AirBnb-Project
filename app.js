@@ -13,6 +13,8 @@ const PORT = 3000;
 const MONGO_URL = process.env.MONGO_URL;
 const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
+const session = require('express-session'); //implements session
+const flash = require('connect-flash'); //flash cards for errors
 
 //--------------------------------- Initializing Express App ---------------------------------//
 
@@ -26,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'views/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
+
 
 
 //--------------------------------- Establishing MongoDB Connection ---------------------------------//
@@ -48,6 +51,27 @@ function asyncWrap(fn) {
         Promise.resolve(fn(req, res, next)).catch(next);
     };
 }
+
+const sessionsSetting = {
+    secret : 'secretcodeisyash',
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge:  7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
+}
+
+app.use(session(sessionsSetting));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.Success = req.flash('Success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
 
 app.use((req, res, next) => {
     try {
@@ -77,6 +101,8 @@ app.get('/testing', asyncWrap(async (req, res) => {
 app.get('/', (req, res) => {
     res.send('Welcome to Stay & Enjoy!');
 });
+
+
 
 //--------------------------------- Error Handling Middleware ---------------------------------//
 

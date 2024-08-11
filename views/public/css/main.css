@@ -60,6 +60,21 @@ main-logo{
     align-items: center !important;
 }
 
+.addlist-nav{
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1.1rem !important;
+    align-items: center !important;
+}
+
+.addlist-nav p {
+    margin: 0 !important;
+}
+
+.addlist-nav i {
+    color: black
+}
+
 /* alert */
 
 .alert{

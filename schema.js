@@ -7,7 +7,7 @@ const SchemaList = Joi.object({
         price: Joi.number().required(),
         image: Joi.object({
             url: Joi.string().required().allow("", null),
-            name: Joi.string()
+            filename: Joi.string().allow("", null)
         }),
         location: Joi.string().required(),
         country: Joi.string().required(),

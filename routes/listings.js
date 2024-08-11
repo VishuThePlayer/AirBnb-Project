@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
-const { SchemaList, ReviewSchemaList } = require('../schema'); // Ensure this path is correct
-
+const { SchemaList } = require('../schema'); // Ensure this path is correct
+const flash = require('connect-flash');
 // Helper function to handle async errors
 function asyncWrap(fn) {
     return (req, res, next) => {
@@ -17,15 +17,6 @@ const validateSchema = (req, res, next) => {
     if (error) {
         let errmessage = error.details.map((e) => e.message).join(",");
         return next(new ExpressError(400, errmessage));
-    }
-    next();
-};
-
-// Middleware to validate Review Schema
-const validateReview = (req, res, next) => {
-    const { error } = ReviewSchemaList.validate(req.body);
-    if (error) {
-        return next(new ExpressError(400, error.details.map(e => e.message).join(",")));
     }
     next();
 };
@@ -46,6 +37,7 @@ router.get('/new', (req, res) => {
 router.post('/new', validateSchema, asyncWrap(async (req, res, next) => {
     const newListing = new listing(req.body.listing);
     await newListing.save();
+    req.flash("Success", "New Listing Created Successfuly")
     res.redirect('/listings');
 }));
 
@@ -55,8 +47,9 @@ router.get('/edit/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const listingFound = await listing.findById(id);
     if (!listingFound) {
-        return next(new ExpressError(404, 'Listing Not Found'));
-    }
+        req.flash("error", "Listing Doesnt Found");
+        res.redirect('/listings');
+    };
     res.render('edit_hotels', { data: listingFound });
 }));
 
@@ -64,28 +57,31 @@ router.put('/edit/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const { title, description, image_url, price, location, country } = req.body;
 
-    try {
-        const updatedListing = await listing.findByIdAndUpdate(id, {
-            title,
-            description,
-            image: { url: image_url },
-            price,
-            location,
-            country
-        }, { new: true });
+    const updatedListing = await listing.findByIdAndUpdate(id, {
+        title,
+        description,
+        image: { url: image_url },
+        price,
+        location,
+        country
+    }, { new: true });
 
-        if (!updatedListing) return next(new ExpressError(404, 'Listing Not Found'));
+    if (!updatedListing) {
+        req.flash("error", "Listing Doesnt Found");
+        res.redirect('/listings');
+    };
+    req.flash("Success", "Listing Modified Successfuly");
+    res.redirect(`/listings/${id}`);
 
-        res.redirect(`/listings/${id}`);
-    } catch (err) {
-        next(err);
-    }
 }));
 
 router.get('/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const listingFound = await listing.findById(id).populate("reviews");
-    if (!listingFound) return next(new ExpressError(404, 'Listing Not Found'));
+    if (!listingFound) {
+        req.flash("error", "Listing Doesnt Found");
+        res.redirect('/listings');
+    };
     res.render('hotels', { data: listingFound });
 }));
 
@@ -93,6 +89,7 @@ router.delete('/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     try {
         await listing.findByIdAndDelete(id);
+        req.flash("Success", "Listing Deleted Successfuly");
         res.redirect('/listings');
     } catch (err) {
         next(err);
