@@ -4,6 +4,10 @@ const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
 const { SchemaList } = require('../schema'); // Ensure this path is correct
 const flash = require('connect-flash');
+const passport = require('passport');
+const {isLoggedin} = require("../loginCheck");
+
+
 // Helper function to handle async errors
 function asyncWrap(fn) {
     return (req, res, next) => {
@@ -22,7 +26,7 @@ const validateSchema = (req, res, next) => {
 };
 
 // Define your routes
-router.get('/', asyncWrap(async (req, res, next) => {
+router.get('/', isLoggedin, asyncWrap(async (req, res, next) => {
     const allListings = await listing.find({});
     if (!allListings) {
         return next(new ExpressError(500, 'No listings found'));
@@ -30,20 +34,25 @@ router.get('/', asyncWrap(async (req, res, next) => {
     res.render('main', { data: allListings });
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedin, (req, res) => {
+    console.log(req.user);
     res.render('new_listings');
 });
 
-router.post('/new', validateSchema, asyncWrap(async (req, res, next) => {
+router.post('/new', isLoggedin, validateSchema, asyncWrap(async (req, res, next) => {
+    if(!req.isAuthenticated()){
+        req.flash("error", "You must be loggged in to StayNJoy")
+        return res.redirect('/login');
+    }
     const newListing = new listing(req.body.listing);
-    await newListing.save();
-    req.flash("Success", "New Listing Created Successfuly")
-    res.redirect('/listings');
+        await newListing.save();
+        req.flash("Success", "New Listing Created Successfuly")
+        res.redirect('/listings');
 }));
 
 
 
-router.get('/edit/:id', asyncWrap(async (req, res, next) => {
+router.get('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const listingFound = await listing.findById(id);
     if (!listingFound) {
@@ -53,7 +62,7 @@ router.get('/edit/:id', asyncWrap(async (req, res, next) => {
     res.render('edit_hotels', { data: listingFound });
 }));
 
-router.put('/edit/:id', asyncWrap(async (req, res, next) => {
+router.put('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const { title, description, image_url, price, location, country } = req.body;
 
@@ -75,7 +84,7 @@ router.put('/edit/:id', asyncWrap(async (req, res, next) => {
 
 }));
 
-router.get('/:id', asyncWrap(async (req, res, next) => {
+router.get('/:id', isLoggedin, asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const listingFound = await listing.findById(id).populate("reviews");
     if (!listingFound) {
@@ -85,7 +94,7 @@ router.get('/:id', asyncWrap(async (req, res, next) => {
     res.render('hotels', { data: listingFound });
 }));
 
-router.delete('/:id', asyncWrap(async (req, res, next) => {
+router.delete('/:id', isLoggedin, asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     try {
         await listing.findByIdAndDelete(id);

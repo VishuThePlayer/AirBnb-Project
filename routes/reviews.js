@@ -4,6 +4,7 @@ const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
 const reviewSchema = require('../models/reviewSchema'); // Ensure this path is correct
 const {ReviewSchemaList } = require('../schema'); // Ensure this path is correct
+const {isLoggedin} = require("../loginCheck");
 
 // Helper function to handle async errors
 function asyncWrap(fn) {
@@ -24,7 +25,7 @@ const validateReview = (req, res, next) => {
 };
 
 
-router.post('/', validateReview, asyncWrap(async (req, res, next) => {
+router.post('/', isLoggedin, validateReview, asyncWrap(async (req, res, next) => {
     const { rating, comment } = req.body;
     const { id } = req.params;
 
@@ -45,7 +46,7 @@ router.post('/', validateReview, asyncWrap(async (req, res, next) => {
     }
 }));
 
-router.delete('/:reviewid', asyncWrap(async (req, res, next) => {
+router.delete('/:reviewid', isLoggedin, asyncWrap(async (req, res, next) => {
     const { id, reviewid } = req.params;
     try {
         await reviewSchema.findByIdAndDelete(reviewid);

@@ -13,9 +13,12 @@ const PORT = 3000;
 const MONGO_URL = process.env.MONGO_URL;
 const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
+const userRouter = require("./routes/user");
 const session = require('express-session'); //implements session
 const flash = require('connect-flash'); //flash cards for errors
-
+const passport = require('passport');
+const passportlocal = require('passport-local');
+const userSchema = require("./models/userSchema")
 //--------------------------------- Initializing Express App ---------------------------------//
 
 const app = express();
@@ -65,6 +68,12 @@ const sessionsSetting = {
 
 app.use(session(sessionsSetting));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportlocal(userSchema.authenticate()));
+
+passport.serializeUser(userSchema.serializeUser());
+passport.deserializeUser(userSchema.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.Success = req.flash('Success');
@@ -86,6 +95,17 @@ app.use((req, res, next) => {
 
 app.use('/listings', listingsRouter);
 app.use('/listings/:id/review', reviewsRouter);
+app.use('/', userRouter);
+
+app.get('/demouser', async(req, res) => {
+    let fakeUser = new userSchema({
+        email: "vishubissa.s@gmail.com",
+        username: "Vishu",
+    });
+
+    let registeredUser = await userSchema.register(fakeUser, "Hello World");
+    res.send(registeredUser);
+})
 
 app.get('/testing', asyncWrap(async (req, res) => {
     try {
