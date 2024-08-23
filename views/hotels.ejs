@@ -11,12 +11,15 @@
                         <p class="card-text mb-2"><strong>Description:</strong> <%= data.description %></p>
                         <p class="card-text mb-2"><strong>Location:</strong> <%= data.location %></p>
                         <p class="card-text mb-2"><strong>Country:</strong> <%= data.country %></p>
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="/listings/edit/<%= data.id %>" class="btn btn-primary">Edit</a>
-                            <form method="post" action="/listings/<%= data.id %>?_method=DELETE">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </div>
+                        <p class="card-text mb-2 text-secondary">Added By: <%= data.owner.username %></p>
+                        <% if (currUser && currUser._id.equals(data.owner._id)) { %>
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="/listings/edit/<%= data.id %>" class="btn btn-primary">Edit</a>
+                                <form method="post" action="/listings/<%= data.id %>?_method=DELETE">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -33,6 +36,7 @@
                     <label for="comment" class="form-label">Comment</label>
                     <textarea name="comment" class="form-control" id="comment"></textarea>
                 </div>
+                
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <div class="col-md-9">
@@ -45,7 +49,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Jane Doe</h5> <!-- Replace with review.author if available -->
+                                        <h5 class="card-title"><%=req.currUser%></h5> <!-- Replace with review.author if available -->
                                         <p class="card-text"><%= review.comment %></p>
                                         <p class="card-text">Rating: <%= review.rating %></p> <!-- Add if rating is available -->
                                         <div class="d-flex justify-content-between mt-4">

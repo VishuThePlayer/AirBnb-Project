@@ -78,6 +78,8 @@ passport.deserializeUser(userSchema.deserializeUser());
 app.use((req, res, next) => {
     res.locals.Success = req.flash('Success');
     res.locals.error = req.flash('error');
+    res.locals.req = req;
+    res.locals.currUser = req.user;
     next();
 })
 
@@ -111,7 +113,8 @@ app.get('/testing', asyncWrap(async (req, res) => {
     try {
         await listing.deleteMany({});
         await reviewSchema.deleteMany({});
-        let result = await listing.insertMany(data);
+        let updatedData = data.map((obj) => ({...obj, owner: "66c38bcba715cdf95ba727e7"}));
+        let result = await listing.insertMany(updatedData);
         res.status(200).send(result);
     } catch (err) {
         res.status(500).send(`An error occurred while saving the entries: ${err.message}`);

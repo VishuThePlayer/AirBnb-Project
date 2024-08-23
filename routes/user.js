@@ -3,6 +3,8 @@ const router = express.Router();
 const ExpressError = require('../ExpressError/ExpressError');
 const userSchema = require("../models/userSchema");
 const passport = require('passport');
+const { saveRedirectUrl } = require('../loginCheck');
+
 
 function asyncWrap(fn) {
     return (req, res, next) => {
@@ -11,7 +13,7 @@ function asyncWrap(fn) {
 }
 
 router.get('/signup', (req, res) => {
-    res.render('signup');
+    res.render('signup', {req: req});
 });
 
 router.post('/signup', asyncWrap(async(req, res) => {
@@ -31,14 +33,36 @@ router.post('/signup', asyncWrap(async(req, res) => {
         req.flash("error","Error Occurred");
         res.redirect("/signup");
     }
+    req.login(registeredUser, (err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash("Success", "Welcome" + " " + req.user.username);
+        console.log(req.user);
+        res.redirect("/listings");
+    })
     // Send a response back to the client
-    req.flash("Success", "User Registered Succefully")
-    res.redirect("/login");
+    
 }));
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {req: req});
 })
+
+router.post('/login', saveRedirectUrl, passport.authenticate("local", { 
+    failureRedirect: '/login', 
+    failureFlash: true 
+}), asyncWrap(async(req, res) => {
+    req.flash("Success", "Welcome " + req.user.username);
+    
+    // Check if redirectUrl exists, if not, default to '/listings'
+    const redirectUrl = res.locals.redirectUrl || '/listings';
+    
+    console.log("Redirecting to:", redirectUrl);
+    res.redirect(redirectUrl);
+}));
+
+
 
 router.get('/logout', (req, res) => {
     req.logout((err) => {
@@ -46,14 +70,11 @@ router.get('/logout', (req, res) => {
             return next(err);
         }
         req.flash("Success", "Logged Out Successfuly")
+        console.log(`User made a logout request ${req.user}`);
         res.redirect('/login');
     })
 })
 
-router.post('/login', passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), asyncWrap(async(req, res) => {
-    req.flash("Success", "Welcome" + " " + req.user.username);
-    console.log(req.user);
-    res.redirect("/listings");
-}))
+
 
 module.exports = router;

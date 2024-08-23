@@ -1,37 +1,49 @@
 <nav class="navbar-1-top navbar navbar-expand-md border border-bottom-1 bg-body-light w-100 sticky-top d-flex justify-content-between">
-    <div class="container-fluid">
-      <div class="main-logo">
-        <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
-          <i class="fa-regular fa-compass"></i>
-          <h4 class="p-0">StayNJoy</h4>
-        </a>
-      </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav nav-underline align-items-center">
-          <li class="nav-item ">
-            <a class="nav-link" aria-current="page" href="/listings">Home</a>
-          </li>
+  <div class="container-fluid">
+    <div class="main-logo">
+      <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
+        <i class="fa-regular fa-compass"></i>
+        <h4 class="p-0">StayNJoy</h4>
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav nav-underline align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/listings">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/listings">All listings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link addlist-nav" href="/listings/new">
+            <div>
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <p>Add new listing</p>
+          </a>
+        </li>
+        <% if (!req.isAuthenticated()) { %>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/listings">All listings</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link addlist-nav" href="/listings/new">
-              <div>
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <p>Add new listing</p>
+            <a class="nav-link addlist-nav" href="/login">
+              <p>Log in</p>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="fals">Disabled</a>
-          </li> -->
-        </ul>
-      </div>
+          <li class="nav-item">
+            <a class="nav-link addlist-nav" href="/signup">
+              <p>Sign Up</p>
+            </a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link addlist-nav" href="/logout">
+              <p>Log out</p>
+            </a>
+          </li>
+        <% } %>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

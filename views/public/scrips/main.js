@@ -17,9 +17,3 @@
     })
   })()
   
-
-let showpass = document.querySelector("#password");
-console.dir(showpass);
-showpass.addEventListener('click', () => {
-  console.log("Working");
-})

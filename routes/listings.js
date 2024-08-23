@@ -26,7 +26,7 @@ const validateSchema = (req, res, next) => {
 };
 
 // Define your routes
-router.get('/', isLoggedin, asyncWrap(async (req, res, next) => {
+router.get('/', asyncWrap(async (req, res, next) => {
     const allListings = await listing.find({});
     if (!allListings) {
         return next(new ExpressError(500, 'No listings found'));
@@ -35,7 +35,7 @@ router.get('/', isLoggedin, asyncWrap(async (req, res, next) => {
 }));
 
 router.get('/new', isLoggedin, (req, res) => {
-    console.log(req.user);
+    // console.log(req.user); //CONSOLE LOG USERS
     res.render('new_listings');
 });
 
@@ -44,10 +44,13 @@ router.post('/new', isLoggedin, validateSchema, asyncWrap(async (req, res, next)
         req.flash("error", "You must be loggged in to StayNJoy")
         return res.redirect('/login');
     }
-    const newListing = new listing(req.body.listing);
-        await newListing.save();
-        req.flash("Success", "New Listing Created Successfuly")
-        res.redirect('/listings');
+    let newListing = new listing(req.body.listing);
+
+    newListing.owner = req.user._id
+    await newListing.save();
+
+    req.flash("Success", "New Listing Created Successfuly")
+    res.redirect('/listings');
 }));
 
 
@@ -84,9 +87,9 @@ router.put('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
 
 }));
 
-router.get('/:id', isLoggedin, asyncWrap(async (req, res, next) => {
+router.get('/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
-    const listingFound = await listing.findById(id).populate("reviews");
+    const listingFound = await listing.findById(id).populate("reviews").populate("owner");
     if (!listingFound) {
         req.flash("error", "Listing Doesnt Found");
         res.redirect('/listings');
