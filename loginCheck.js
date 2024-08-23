@@ -1,3 +1,8 @@
+const listing = require('./models/staynenjoy_schema');
+const ExpressError = require('./ExpressError/ExpressError');
+const reviewSchema = require('./models/reviewSchema'); // Ensure this path is correct
+
+
 module.exports.isLoggedin = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;  // Fix the typo here
@@ -17,3 +22,33 @@ module.exports.saveRedirectUrl = (req, res, next) => {
     }
     next();
 };
+
+
+module.exports.isOwner = async(req, res, next) => {
+    const { id } = req.params;
+    let listing_check = await listing.findById(id);
+    if(!listing_check.owner._id.equals(res.locals.currUser._id)){
+        req.flash("error", "You Dont have permission to edit as you are not the owner of the listing");
+        res.redirect(`/listings/${id}`);
+    };
+    next();
+}
+
+module.exports.validateSchema = (req, res, next) => {
+    const { error } = SchemaList.validate(req.body);
+    if (error) {
+        let errmessage = error.details.map((e) => e.message).join(",");
+        return next(new ExpressError(400, errmessage));
+    }
+    next();
+};
+
+module.exports.isReviewAuthor = async(req, res, next) => {
+    const { id,  reviewid } = req.params;
+    let result = await reviewSchema.findById(reviewid);
+    if(!result.author._id.equals(res.locals.currUser._id)){
+        req.flash("error", "You are not the author of this review");
+        return res.redirect(`/listings/${id}`)
+    };
+    next();
+}

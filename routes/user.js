@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const ExpressError = require('../ExpressError/ExpressError');
 const userSchema = require("../models/userSchema");
 const passport = require('passport');
 const { saveRedirectUrl } = require('../loginCheck');

@@ -75,6 +75,12 @@ main-logo{
     color: black
 }
 
+/* main.ejs */
+
+.main_hotel{
+    padding-left: 0 !important;
+}
+
 /* alert */
 
 .alert{

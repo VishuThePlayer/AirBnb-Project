@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ExpressError = require('../ExpressError/ExpressError');
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
-const { SchemaList } = require('../schema'); // Ensure this path is correct
-const flash = require('connect-flash');
-const passport = require('passport');
-const {isLoggedin} = require("../loginCheck");
+const {isLoggedin, isOwner, validateSchema} = require("../loginCheck");
 
 
 // Helper function to handle async errors
@@ -16,20 +12,13 @@ function asyncWrap(fn) {
 }
 
 // Middleware to validate Schema
-const validateSchema = (req, res, next) => {
-    const { error } = SchemaList.validate(req.body);
-    if (error) {
-        let errmessage = error.details.map((e) => e.message).join(",");
-        return next(new ExpressError(400, errmessage));
-    }
-    next();
-};
+
 
 // Define your routes
 router.get('/', asyncWrap(async (req, res, next) => {
     const allListings = await listing.find({});
     if (!allListings) {
-        return next(new ExpressError(500, 'No listings found'));
+        req.flash("error", "No listing Found");
     }
     res.render('main', { data: allListings });
 }));
@@ -65,10 +54,9 @@ router.get('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
     res.render('edit_hotels', { data: listingFound });
 }));
 
-router.put('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
+router.put('/edit/:id', isLoggedin, isOwner, asyncWrap(async (req, res, next) => {
     const { id } = req.params;
     const { title, description, image_url, price, location, country } = req.body;
-
     const updatedListing = await listing.findByIdAndUpdate(id, {
         title,
         description,
@@ -89,7 +77,7 @@ router.put('/edit/:id', isLoggedin, asyncWrap(async (req, res, next) => {
 
 router.get('/:id', asyncWrap(async (req, res, next) => {
     const { id } = req.params;
-    const listingFound = await listing.findById(id).populate("reviews").populate("owner");
+    const listingFound = await listing.findById(id).populate({path: "reviews", populate: {path: "author"}}).populate("owner");
     if (!listingFound) {
         req.flash("error", "Listing Doesnt Found");
         res.redirect('/listings');

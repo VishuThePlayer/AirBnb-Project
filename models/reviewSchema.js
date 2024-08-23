@@ -12,8 +12,8 @@ const reviewSchemamodel = Schema({
         type: Date,
         default: Date.now()
     },
-    owner: {
-        type: Schema.ObjectId,
+    author: {
+        type: Schema.Types.ObjectId,
         ref: "User"
     }
 })
