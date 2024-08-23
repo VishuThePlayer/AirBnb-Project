@@ -91,9 +91,8 @@ This structure ensures a clear separation of concerns, making the project mainta
    ```sh
    git clone https://github.com/your-username/AirBnB-Project.git
    cd AirBnB-Project
-   Install dependencies
    npm install
-   node app.js or use nodemon app.js
+   node app.js
 
 Contact
 Vitthal Bissa - vishubissa.s@gmail.com
