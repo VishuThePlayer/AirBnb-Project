@@ -33,7 +33,7 @@ router.post('/signup', asyncWrap(async(req, res) => {
     }
     // Send a response back to the client
     req.flash("Success", "User Registered Succefully")
-    res.redirect("/listings");
+    res.redirect("/login");
 }));
 
 router.get('/login', (req, res) => {
