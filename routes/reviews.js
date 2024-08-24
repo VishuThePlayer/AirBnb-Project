@@ -4,7 +4,6 @@ const { getReview, createReview, deleteReview } = require('../controllers/review
 const { ReviewSchemaList } = require('../schema'); // Ensure this path is correct
 const { isLoggedin, isReviewAuthor } = require("../loginCheck");
 const ExpressError = require('../ExpressError/ExpressError');
-const reviewController = require('../controllers/review.js')
 
 // Middleware to validate Review Schema
 const validateReview = (req, res, next) => {
@@ -15,10 +14,12 @@ const validateReview = (req, res, next) => {
     next();
 };
 
-router.get('/:reviewid', isLoggedin, reviewController.getReview);
+// Routes
+router.route('/:reviewid')
+    .get(isLoggedin, getReview)
+    .delete(isLoggedin, isReviewAuthor, deleteReview);
 
-router.post('/', isLoggedin, validateReview, reviewController.createReview);
-
-router.delete('/:reviewid', isLoggedin, isReviewAuthor, reviewController.deleteReview);
+router.route('/')
+    .post(isLoggedin, validateReview, createReview);
 
 module.exports = router;

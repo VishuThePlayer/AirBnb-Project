@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
-const {isLoggedin, isOwner, validateSchema} = require("../loginCheck");
-const listingController = require('../controllers/listings.js')
-
+const { isLoggedin, isOwner, validateSchema } = require("../loginCheck");
+const listingController = require('../controllers/listings.js');
 
 // Helper function to handle async errors
 function asyncWrap(fn) {
@@ -12,26 +11,21 @@ function asyncWrap(fn) {
     };
 }
 
-// Middleware to validate Schema
+// Routes
+router.route('/new')
+    .get(isLoggedin, listingController.newForm)
+    .post(isLoggedin, validateSchema, asyncWrap(listingController.newFormPublish));
 
+router.route('/')
+    .get(asyncWrap(listingController.index));
 
-// Define your routes
-router.get('/', asyncWrap(listingController.index));
+router.route('/edit/:id')
+    .get(isLoggedin, asyncWrap(listingController.editForm))
+    .put(isLoggedin, isOwner, asyncWrap(listingController.editFormUpload));
 
-router.get('/new', isLoggedin, listingController.newForm);
-
-router.post('/new', isLoggedin, validateSchema, asyncWrap(listingController.newFormPublish));
-
-
-
-router.get('/edit/:id', isLoggedin, asyncWrap(listingController.editForm));
-
-router.put('/edit/:id', isLoggedin, isOwner, asyncWrap(listingController.editFormUpload));
-
-router.get('/:id', asyncWrap(listingController.showListing));
-
-router.delete('/:id', isLoggedin, asyncWrap(listingController.deleteListing));
-
+router.route('/:id')
+    .get(asyncWrap(listingController.showListing))
+    .delete(isLoggedin, asyncWrap(listingController.deleteListing));
 
 // Export the router
 module.exports = router;
