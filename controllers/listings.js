@@ -14,6 +14,9 @@ module.exports.newForm = (req, res) => {
 };
 
 module.exports.newFormPublish = async (req, res, next) => {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    console.log(req.file);
     if(!req.isAuthenticated()){
         req.flash("error", "You must be loggged in to StayNJoy")
         return res.redirect('/login');
@@ -21,6 +24,7 @@ module.exports.newFormPublish = async (req, res, next) => {
     let newListing = new listing(req.body.listing);
 
     newListing.owner = req.user._id
+    newListing.image = {url, filename};
     await newListing.save();
 
     req.flash("Success", "New Listing Created Successfuly")

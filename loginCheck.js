@@ -1,6 +1,7 @@
 const listing = require('./models/staynenjoy_schema');
 const ExpressError = require('./ExpressError/ExpressError');
 const reviewSchema = require('./models/reviewSchema'); // Ensure this path is correct
+const { SchemaList } = require('./schema');
 
 
 module.exports.isLoggedin = (req, res, next) => {
@@ -37,6 +38,7 @@ module.exports.isOwner = async(req, res, next) => {
 module.exports.validateSchema = (req, res, next) => {
     const { error } = SchemaList.validate(req.body);
     if (error) {
+        console.log(`Error message => ${error}`);
         let errmessage = error.details.map((e) => e.message).join(",");
         return next(new ExpressError(400, errmessage));
     }

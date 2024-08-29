@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const listing = require('../models/staynenjoy_schema'); // Ensure this path is correct
 const { isLoggedin, isOwner, validateSchema } = require("../loginCheck");
 const listingController = require('../controllers/listings.js');
+const multer  = require('multer');
+const {storage} = require('../cloudconfig.js');
+const upload = multer({ storage });
+
 
 // Helper function to handle async errors
 function asyncWrap(fn) {
@@ -14,7 +17,11 @@ function asyncWrap(fn) {
 // Routes
 router.route('/new')
     .get(isLoggedin, listingController.newForm)
-    .post(isLoggedin, validateSchema, asyncWrap(listingController.newFormPublish));
+    .post(isLoggedin,
+         upload.single('listing[image][url]'),
+         validateSchema,
+        asyncWrap(listingController.newFormPublish));
+
 
 router.route('/')
     .get(asyncWrap(listingController.index));

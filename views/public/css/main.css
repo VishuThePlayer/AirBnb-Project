@@ -75,6 +75,22 @@ main-logo{
     color: black
 }
 
+.profile-border{
+    width: 90% !important;
+    margin-right: 10px !important;
+    padding: 15px 15px !important;
+    display: flex !important;
+    gap: 5px !important;
+    border: 1px solid grey !important;
+    border-radius: 2rem;
+    transition: 0.35s ease-in-out !important;
+}
+
+.profile-border:hover{
+    box-shadow: 1px 4px 4px grey !important;
+}
+
+
 /* main.ejs */
 
 .main_hotel{

@@ -12,16 +12,8 @@ const StayNJoySchema = new Schema({
         required: true
     },
     image: {
-        filename: {
-            type: String,
-            default: "default.jpg",
-            set: (v) => v === "" ? "default.jpg" : v
-        },
-        url: {
-            type: String,
-                default: "",
-            set: (v) => v === "" ? "https://media.cntraveller.in/wp-content/uploads/2017/02/1-alsisar-haveli-866x649.jpg" : v
-        }
+        url: String,
+        filename: String,
     },
     price: {
         type: Number,

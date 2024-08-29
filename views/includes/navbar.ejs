@@ -1,4 +1,4 @@
-<nav class="navbar-1-top navbar navbar-expand-md border border-bottom-1 bg-body-light w-100 sticky-top d-flex justify-content-between">
+<nav class="navbar-1-top navbar navbar-expand-md border border-bottom-1 bg-body-light w-100 sticky-top d-flex justify-content-between m">
   <div class="container-fluid">
     <div class="main-logo">
       <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
@@ -25,24 +25,22 @@
             <p>Add new listing</p>
           </a>
         </li>
-        <% if (!req.isAuthenticated()) { %>
-          <li class="nav-item">
-            <a class="nav-link addlist-nav" href="/login">
-              <p>Log in</p>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle profile-border" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-bars" style="color: #000;"></i>
+              <i class="fa-regular fa-user ms-2" style="color: black;"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link addlist-nav" href="/signup">
-              <p>Sign Up</p>
-            </a>
-          </li>
-        <% } else { %>
-          <li class="nav-item">
-            <a class="nav-link addlist-nav" href="/logout">
-              <p>Log out</p>
-            </a>
-          </li>
-        <% } %>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <% if (!req.isAuthenticated()) { %>
+              <li><a class="dropdown-item" href="/login">Log in</a></li>
+              <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+            <% } else { %>
+              <li><a class="dropdown-item" href="/logout">Log out</a></li>
+            <% } %>
+          </ul>
+        </li>
+        
+        
       </ul>
     </div>
   </div>

@@ -1,5 +1,9 @@
 //--------------------------------- Importing Libraries and Defining Constants ---------------------------------//
 
+if(process.env.NODE_ENV != "production"){
+    require("dotenv").config();
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const listing = require('./models/staynenjoy_schema'); // Ensure this path is correct
@@ -19,6 +23,8 @@ const flash = require('connect-flash'); //flash cards for errors
 const passport = require('passport');
 const passportlocal = require('passport-local');
 const userSchema = require("./models/userSchema")
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 //--------------------------------- Initializing Express App ---------------------------------//
 
 const app = express();

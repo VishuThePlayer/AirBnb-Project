@@ -1,6 +1,6 @@
 <%layout("/layouts/boilerplate")%>
 <body>
-    <form class="offset-1 needs-validation" action="/listings/new" method="post" novalidate >
+    <form class="offset-1 needs-validation" enctype="multipart/form-data" action="/listings/new" method="post" novalidate >
         <div class="row shadow p-3 mt-5 mb-5 me-4 bg-body-tertiary rounded">
             <p class="fs-2 text-secondary text-center">Add New Listing</p>
             <div class="col-8 offset-2">
@@ -25,23 +25,19 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="imageUrl" class="form-label">Image URL</label>
-                    <input name="listing[image][url]" type="url" class="form-control" id="imageUrl" placeholder="Paste the URL" required>
+                    <label for="imageUrl" class="form-label">Image Upload</label>
+                    <input name="listing[image][url]" type="file" class="form-control" id="imageUrl" required>
                     <div class="invalid-feedback">
-                        Please provide a Image Url.
+                        Please provide an image file.
                     </div>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="imageFilename" class="form-label">Image Filename</label>
-                    <input name="listing[image][filename]" type="text" class="form-control" id="imageFilename" placeholder="Enter the filename (optional)">
-                </div>
+                </div>                
                <div class="row">
                     <div class="mb-3 col-6">
                         <label for="price" class="form-label">Price (&#8377;)</label>
-                        <input name="listing[price]" type="string" class="form-control" id="price" placeholder="Enter the price" required>
+                        <input name="listing[price]" type="number" class="form-control" id="price" placeholder="Enter the price" required>
                         <div class="invalid-feedback">
                             Please provide a Price.
                         </div>
