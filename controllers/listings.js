@@ -64,6 +64,17 @@ module.exports.editForm = async (req, res, next) => {
 
 module.exports.editFormUpload = async (req, res, next) => {
     const { id } = req.params;
+    let  query = req.body.listing.location
+    let response = await geocodingClient
+        .forwardGeocode({
+            query: query, // Use the dynamic query from the request
+            limit: 2
+        })
+        .send();
+
+    // Extract match from the response
+    const match = response.body;
+    console.log(response.body.features[0].geometry);
     console.log(req.body.listing);
     
     // Fetch the existing listing to retain current image data if no new image is uploaded
@@ -82,8 +93,8 @@ module.exports.editFormUpload = async (req, res, next) => {
         updatedListing.image = {url, filename};
         await updatedListing.save();
     }
-
-
+    updatedListing.geometry = response.body.features[0].geometry;
+    await updatedListing.save();
     if (!updatedListing) {
         req.flash("error", "Listing Doesn't Exist");
         return res.redirect('/listings');
