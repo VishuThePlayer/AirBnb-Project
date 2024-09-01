@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
+    "@mapbox/mapbox-sdk": "^0.16.0",
     "bootstrap": "^5.3.3",
     "cloudinary": "^2.4.0",
     "connect-flash": "^0.1.1",

@@ -18,8 +18,8 @@ function asyncWrap(fn) {
 router.route('/new')
     .get(isLoggedin, listingController.newForm)
     .post(isLoggedin,
-         upload.single('listing[image][url]'),
-         validateSchema,
+        upload.single('listing[image][url]'),
+        validateSchema,
         asyncWrap(listingController.newFormPublish));
 
 
@@ -28,7 +28,11 @@ router.route('/')
 
 router.route('/edit/:id')
     .get(isLoggedin, asyncWrap(listingController.editForm))
-    .put(isLoggedin, isOwner, asyncWrap(listingController.editFormUpload));
+    .put(isLoggedin,
+         isOwner,
+         upload.single('listing[image][url]'),
+         validateSchema,
+          asyncWrap(listingController.editFormUpload));
 
 router.route('/:id')
     .get(asyncWrap(listingController.showListing))

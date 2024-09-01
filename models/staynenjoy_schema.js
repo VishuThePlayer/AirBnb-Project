@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
-const reviewSchema = require('./reviewSchema')
+const reviewSchema = require('./reviewSchema');
+const { required } = require('joi');
 
 const StayNJoySchema = new Schema({
     title: {
@@ -34,7 +35,20 @@ const StayNJoySchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User"
+    },
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+        }
+
     }
+    
 });
 
 StayNJoySchema.pre('findOneAndDelete', function (next) {

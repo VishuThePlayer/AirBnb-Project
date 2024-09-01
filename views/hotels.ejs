@@ -1,4 +1,8 @@
 <% layout("/layouts/boilerplate") %>
+<script>
+    const mapToken = '<%= process.env.MAP_TOKEN %>'; 
+    const coordinates = <%- JSON.stringify(data.geometry.coordinates) %>;
+</script>
 <body>
     <div class="container mt-5">
         <!-- Listing Details -->
@@ -23,8 +27,17 @@
                         <% } %>
                     </div>
                 </div>
+                
+                    <div>
+                        <br>
+                        <h1>Where You'll be</h1>
+                        <br>
+                    </div>
+                    <div id="map" style="width: 100%; height:450px;"></div>
+                    
             </div>
         </div>
+        
 
         <!-- Review Submission Form -->
         <% if (currUser) { %>
@@ -127,3 +140,4 @@
         }
     </style>
 </body>
+<script src="/scripts/map.js"></script>
