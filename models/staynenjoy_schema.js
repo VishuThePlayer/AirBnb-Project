@@ -47,7 +47,11 @@ const StayNJoySchema = new Schema({
             required: true,
         }
 
-    }
+    },
+    // category: {
+    //     type: String,
+    //     enum: ['mountains', 'arctics', 'farms, deserts']
+    // }
     
 });
 

@@ -12,6 +12,9 @@ body{
     flex: 1;
 }
 .navbar{ 
+    display: flex !important;
+    align-content: center !important;
+    justify-content: space-between !important;
     background-color: rgb(255, 255, 255) !important; 
 }
 
@@ -26,6 +29,10 @@ body{
 
 
 /* navbar */
+
+.navbarNav{
+    width: 100px !important;
+}
 
 
 .footer-1b-incl{
@@ -90,6 +97,72 @@ main-logo{
     box-shadow: 1px 4px 4px grey !important;
 }
 
+.filters{
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: baseline;
+    justify-content: center;
+    flex: 1
+}
+
+.filter{
+    opacity: 0.6;
+    transition: 250ms ease-in;
+}
+.filter p{
+    font-size: 0.8rem;;
+}
+
+.filter i{
+    font-size: 1.5rem;
+    display: flex; /* Ensures the icon stays centered */
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.filter:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.search-input {
+    border-radius: 50px 0 0 50px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .search-button {
+    border-radius: 0 50px 50px 0;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .search-icon {
+    font-size: 16px;
+  }
+
+.search{
+    padding: 0 3rem !important;
+    border-radius: 2rem !important;
+    
+}
+
+.search-btn{
+    display: flex !important;
+    align-items: baseline;
+    justify-content: center;
+    gap: 1.1rem !important;
+    border-radius: 2rem !important;
+    background-color: red !important;
+    color: rgb(224, 217, 217) !important;
+}
+
+.search-btn i{
+    color: rgb(224, 217, 217) !important;
+}
 
 /* main.ejs */
 
@@ -114,6 +187,21 @@ main-logo{
 .alert-svg + div{
     margin-right: 240px;
     font-size: 30px;
+}
+
+/* main.ejs */
+.tax-info{
+    display: none;
+}
+
+.tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 1rem;
+    margin-left: 5rem;
+    display: flex;
+    align-items: center;
 }
 
 
