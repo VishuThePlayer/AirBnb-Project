@@ -6,6 +6,7 @@ if(process.env.NODE_ENV != "production"){
 
 const express = require('express');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const listing = require('./models/staynenjoy_schema'); // Ensure this path is correct
 const { data } = require('./models/random_gen_data/data'); // Ensure this path is correct
 const path = require('path');
@@ -15,6 +16,7 @@ const reviewSchema = require('./models/reviewSchema');
 require('dotenv').config();
 const PORT = 3000;
 const MONGO_URL = process.env.MONGO_URL;
+const SESSION_SECRET = process.env.SESSION_SECRET;
 const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
 const userRouter = require("./routes/user");
@@ -61,8 +63,23 @@ function asyncWrap(fn) {
     };
 }
 
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: SESSION_SECRET,
+        
+    },
+    touchAfter: 24 * 3600
+});
+
+store.on("error", () => {
+    console.log("Err in mongo store session",err)
+});
+
+
 const sessionsSetting = {
-    secret : 'secretcodeisyash',
+    store: store,
+    secret : SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
@@ -76,6 +93,8 @@ app.use(session(sessionsSetting));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 passport.use(new passportlocal(userSchema.authenticate()));
 
 passport.serializeUser(userSchema.serializeUser());
@@ -88,6 +107,8 @@ app.use((req, res, next) => {
     res.locals.currUser = req.user;
     next();
 })
+
+
 
 
 app.use((req, res, next) => {
@@ -105,15 +126,17 @@ app.use('/listings', listingsRouter);
 app.use('/listings/:id/review', reviewsRouter);
 app.use('/', userRouter);
 
-app.get('/demouser', async(req, res) => {
-    let fakeUser = new userSchema({
-        email: "vishubissa.s@gmail.com",
-        username: "Vishu",
-    });
+// testing
 
-    let registeredUser = await userSchema.register(fakeUser, "Hello World");
-    res.send(registeredUser);
-})
+// app.get('/demouser', async(req, res) => {
+//     let fakeUser = new userSchema({
+//         email: "vishubissa.s@gmail.com",
+//         username: "Vishu",
+//     });
+
+//     let registeredUser = await userSchema.register(fakeUser, "Hello World");
+//     res.send(registeredUser);
+// })
 
 app.get('/testing', asyncWrap(async (req, res) => {
     try {

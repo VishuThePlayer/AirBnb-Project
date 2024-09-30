@@ -11,12 +11,88 @@ body{
 .container{
     flex: 1;
 }
-.navbar{ 
+
+.menu-logo{
     display: flex !important;
-    align-content: center !important;
-    justify-content: space-between !important;
-    background-color: rgb(255, 255, 255) !important; 
+    flex-direction: row !important;
 }
+/* General navbar styles */
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background-color: rgb(255, 255, 255) !important;
+    padding: 10px !important;
+}
+.search-btndiv{
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    background-color: red;
+    border-radius: 9px;
+    padding: 2px 10px!important;
+}
+.search-btndiv p{
+    margin: 0 !important;
+    padding: 0px 0px!important;
+    color: white;
+}
+
+
+
+/* Responsive search bar */
+@media (max-width: 771px) {
+    .main-logo{
+        width: 100%;
+        display: flex !important;
+        flex-direction: row !important;
+    }
+    .navbar-nav {
+        width: 129px;
+        justify-content: center;
+    }
+    #search-bar{
+        display: none;
+    }
+
+    .profile-s ul{
+        flex-direction: row !important;
+    }
+
+    .form-control {
+        width: 80%; /* Adjust the search bar width */
+    }
+
+    .search-btndiv p{
+        display: none !important;
+    }
+}
+
+@media (max-width: 947) {
+    .filters filter{
+        width: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-control {
+        width: 100%; /* Full width search bar on small screens */
+    }
+
+    .navbar-nav {
+        flex-direction: column; /* Stack the form vertically on very small screens */
+        align-items: center;
+    }
+
+    .addlist-nav p{
+        display: none !important;
+    }
+    
+    .search-btn {
+        margin-top: 10px; /* Add space between search input and button */
+    }
+}
+
 
 .listing-link{
     text-decoration: none;
@@ -169,6 +245,19 @@ main-logo{
 .main_hotel{
     padding-left: 0 !important;
 }
+
+/* main */
+
+.diplay-box-area{
+    width: 80% !important;
+}
+
+.display-text {
+    font-size: 10%;
+    padding: none !important;
+}
+
+
 
 /* alert */
 
