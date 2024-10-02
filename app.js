@@ -151,7 +151,7 @@ app.get('/testing', asyncWrap(async (req, res) => {
 }));
 
 app.get('/', (req, res) => {
-    res.send('Welcome to Stay & Enjoy!');
+    res.redirect('/listings');
 });
 
 
