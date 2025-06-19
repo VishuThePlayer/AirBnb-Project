@@ -18,8 +18,8 @@
         
         <!-- SEARCH BAR -->
         <li class="nav-item w-100 w-md-auto">
-          <form class="d-flex mx-md-3 my-2 my-md-0" role="search">
-            <input class="form-control me-2 search" type="search" placeholder="Search Destination" aria-label="Search">
+          <form class="d-flex mx-md-3 my-2 my-md-0" role="search" action="/listings/search" method="get">
+            <input name="q" class="form-control me-2 search" type="search" placeholder="Search Destination" aria-label="Search">
             <div class="search-btndiv d-flex align-items-center">
               <button class="btn search-btn" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -39,7 +39,10 @@
           <li class="nav-item">
             <a class="nav-link addlist-nav d-flex align-items-center" href="/listings/new">
               <i class="fa-solid fa-plus"></i>
-              <p class="mb-0 ms-2">StayNJoy Your Home</p>
+              <div class="d-flex gap-2">
+                <p>Add</p>
+                <p>Home</p>
+              </div>
             </a>
           </li>
         <% } %>

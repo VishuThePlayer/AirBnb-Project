@@ -27,6 +27,8 @@ const passportlocal = require('passport-local');
 const userSchema = require("./models/userSchema")
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
+const mapbox = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mapbox({ accessToken: process.env.MAP_TOKEN }); // load from env
 //--------------------------------- Initializing Express App ---------------------------------//
 
 const app = express();
@@ -142,13 +144,40 @@ app.get('/testing', asyncWrap(async (req, res) => {
     try {
         await listing.deleteMany({});
         await reviewSchema.deleteMany({});
-        let updatedData = data.map((obj) => ({...obj, owner: "66c38bcba715cdf95ba727e7"}));
-        let result = await listing.insertMany(updatedData);
+
+        const updatedData = await Promise.all(data.map(async (obj) => {
+            let query = obj.location;
+            let geometry = { type: 'Point', coordinates: [] };
+
+            try {
+                let response = await geocodingClient
+                    .forwardGeocode({
+                        query: query,
+                        limit: 1
+                    })
+                    .send();
+
+                if (response.body.features.length > 0) {
+                    geometry.coordinates = response.body.features[0].geometry.coordinates;
+                }
+            } catch (err) {
+                console.error(`Error geocoding for ${query}:`, err.message);
+            }
+
+            return {
+                ...obj,
+                owner: "67dedd838c8f61988e3ca6cc",
+                geometry
+            };
+        }));
+
+        const result = await listing.insertMany(updatedData);
         res.status(200).send(result);
     } catch (err) {
         res.status(500).send(`An error occurred while saving the entries: ${err.message}`);
     }
 }));
+
 
 app.get('/', (req, res) => {
     res.redirect('/listings');

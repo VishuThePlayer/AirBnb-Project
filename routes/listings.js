@@ -26,6 +26,9 @@ router.route('/new')
 router.route('/')
     .get(asyncWrap(listingController.index));
 
+router.route('/search')
+    .get(asyncWrap(listingController.search));
+
 router.route('/edit/:id')
     .get(isLoggedin, asyncWrap(listingController.editForm))
     .put(isLoggedin,

@@ -9,7 +9,7 @@ module.exports.index = async (req, res, next) => {
     if (!allListings) {
         req.flash("error", "No listing Found");
     }
-    res.render('main', { data: allListings });
+    res.render('main', { data: allListings, query: null });
 };
 
 module.exports.newForm = (req, res) => {
@@ -62,6 +62,19 @@ module.exports.editForm = async (req, res, next) => {
     res.render('edit_hotels', { data: listingFound, image: orignalImage });
 };
 
+module.exports.search = async(req, res, next) => {
+    let query = req.query.q;
+    console.log(query);
+    if (!query) {
+            return res.redirect('/listings');
+        }
+    const listings = await listing.find({
+            title: { $regex: new RegExp(query, 'i') } // 'i' for case-insensitive
+        });
+     res.render('main', { data: listings, query: query });
+
+}
+
 module.exports.editFormUpload = async (req, res, next) => {
     const { id } = req.params;
     let  query = req.body.listing.location
@@ -112,6 +125,7 @@ module.exports.showListing = async (req, res, next) => {
         req.flash("error", "Listing Doesnt Found");
         res.redirect('/listings');
     };
+    console.log(listingFound);
     res.render('hotels', { data: listingFound });
 };
 
