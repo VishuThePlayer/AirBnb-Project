@@ -1,58 +1,68 @@
 <% layout("/layouts/boilerplate") %>
 <title>StayNJoy Hotels</title>
 <body>
-    <div class="container filters">
-        <div class="filter">
-            <i class="fa-solid fa-fire"></i>
-            <p>Trending</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-bed"></i>
-            <p>Rooms</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-mountain-city"></i>
-            <p>Iconic Cities</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-mountain"></i>
-            <p>Mountain</p>
-        </div>
-        <div class="filter">
-            <i class="fa-brands fa-fort-awesome"></i>
-            <p>Castles</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-person-swimming"></i>
-            <p>Amazing Pools</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-campground"></i>
-            <p>Camping</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-cow"></i>
-            <p>Farms</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-snowflake"></i>
-            <p>Arctic</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-igloo"></i>
-            <p>Domes</p>
-        </div>
-        <div class="filter">
-            <i class="fa-solid fa-ship"></i>
-            <p>Boat</p>
-        </div>
-        <div class="tax-toggle">
-            <div class="form-check-reverse form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Display Total After Taxes</label>
-              </div>
+    <div class="container-fluid py-3">
+  <div class="d-flex flex-wrap justify-content-start gap-3">
+    <div class="filter text-center">
+      <i class="fa-solid fa-fire fa-2x"></i>
+      <p class="mb-0">Trending</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-bed fa-2x"></i>
+      <p class="mb-0">Rooms</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-mountain-city fa-2x"></i>
+      <p class="mb-0">Iconic Cities</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-mountain fa-2x"></i>
+      <p class="mb-0">Mountain</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-brands fa-fort-awesome fa-2x"></i>
+      <p class="mb-0">Castles</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-person-swimming fa-2x"></i>
+      <p class="mb-0">Amazing Pools</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-campground fa-2x"></i>
+      <p class="mb-0">Camping</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-cow fa-2x"></i>
+      <p class="mb-0">Farms</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-snowflake fa-2x"></i>
+      <p class="mb-0">Arctic</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-igloo fa-2x"></i>
+      <p class="mb-0">Domes</p>
+    </div>
+    <div class="filter text-center">
+      <i class="fa-solid fa-ship fa-2x"></i>
+      <p class="mb-0">Boat</p>
+    </div>
+    <!-- Tax toggle -->
+    <!-- <div class="tax-toggle ms-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display Total After Taxes</label>
+      </div>
+    </div> -->
+    <div class="tax-toggle d-flex align-items-center ms-auto ps-2">
+        <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Display Total After Taxes</label>
         </div>
     </div>
+
+  </div>
+</div>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-1">
             <% data.forEach(element => { %>

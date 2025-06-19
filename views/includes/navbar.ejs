@@ -1,65 +1,66 @@
 <nav class="navbar-1-top navbar navbar-expand-md border border-bottom-1 bg-body-light w-100 sticky-top">
-    <div class="container main-logo d-flex justify-content-betweem">
-      <div id="logohere">
-        <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
-          <i class="fa-regular fa-compass"></i>
-          <h4 class="p-0">StayNJoy</h4>
-        </a>
-      </div>
-      <div id="search-bar">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search" type="search" placeholder="Search Destination" aria-label="Search">
-          <div class="search-btndiv">
-            <button class="btn search-btn" type="submit">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <p>Search</p>
-          </div>
-        </form>
-      </div>
-      <div class="contmenu">
-        <div class="profile-s navbar-nav ms-auto" id="navbarNav">
-          <ul class="navbar-nav nav-underline align-items-center">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/listings">Explore</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/listings">All listings</a>
-            </li> -->
-            <% if (req.user) { %>
-              <li class="nav-item">
-                <a class="nav-link addlist-nav" href="/listings/new">
-                  <div>
-                    <i class="fa-solid fa-plus"></i>
-                  </div>
-                  <p>StayNJoy Your Home</p>
-                </a>
-              </li>
+  <div class="container d-flex justify-content-between align-items-center">
+    
+    <!-- LOGO -->
+    <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+      <h4 class="p-0">StayNJoy</h4>
+    </a>
+
+    <!-- TOGGLER BUTTON (for mobile) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- COLLAPSIBLE CONTENT -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto nav-underline align-items-md-center w-100 gap-md-3">
+        
+        <!-- SEARCH BAR -->
+        <li class="nav-item w-100 w-md-auto">
+          <form class="d-flex mx-md-3 my-2 my-md-0" role="search">
+            <input class="form-control me-2 search" type="search" placeholder="Search Destination" aria-label="Search">
+            <div class="search-btndiv d-flex align-items-center">
+              <button class="btn search-btn" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+              <p class="mb-0 ms-2">Search</p>
+            </div>
+          </form>
+        </li>
+
+        <!-- EXPLORE LINK -->
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/listings">Explore</a>
+        </li>
+
+        <!-- CONDITIONAL: ADD LISTING -->
+        <% if (req.user) { %>
+          <li class="nav-item">
+            <a class="nav-link addlist-nav d-flex align-items-center" href="/listings/new">
+              <i class="fa-solid fa-plus"></i>
+              <p class="mb-0 ms-2">StayNJoy Your Home</p>
+            </a>
+          </li>
+        <% } %>
+
+        <!-- PROFILE DROPDOWN -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center profile-border" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars" style="color: #000;"></i>
+            <i class="fa-regular fa-user ms-2" style="color: black;"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <% if (!req.isAuthenticated()) { %>
+              <li><strong><a class="dropdown-item" href="/login">Log in</a></strong></li>
+              <li><strong><a class="dropdown-item" href="/signup">Sign Up</a></strong></li>
+            <% } else { %>
+              <li><a class="dropdown-item" href="/logout">Log out</a></li>
             <% } %>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle profile-border" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa-solid fa-bars" style="color: #000;"></i>
-                  <i class="fa-regular fa-user ms-2" style="color: black;"></i>
-                </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <% if (!req.isAuthenticated()) { %>
-                  <li><strong><a class="dropdown-item" href="/login">Log in</a></strong></li>
-                  <li><strong><a class="dropdown-item" href="/signup">Sign Up</a></strong></li>
-      
-                <% } else { %>
-                  <li><a class="dropdown-item" href="/logout">Log out</a></li>
-                <% } %>
-              </ul>
-            </li>
-            
-            
           </ul>
-        </div>
-        <div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-      </div>
+        </li>
+
+      </ul>
     </div>
+  </div>
 </nav>

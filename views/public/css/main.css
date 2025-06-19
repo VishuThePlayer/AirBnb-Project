@@ -279,11 +279,22 @@ main-logo{
 }
 
 /* main.ejs */
+
+.filter {
+  width: 90px !important;
+  flex-shrink: 0 !important;
+}
+@media (max-width: 576px) {
+  .filter {
+    width: 70px !important;
+  }
+}
 .tax-info{
     display: none;
 }
 
 .tax-toggle{
+    font: 0.5rem;
     border: 1px solid black;
     border-radius: 1rem;
     height: 3.25rem;
@@ -291,6 +302,17 @@ main-logo{
     margin-left: 5rem;
     display: flex;
     align-items: center;
+}
+
+.tax-toggle {
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .tax-toggle {
+    width: 100%;
+    justify-content: start;
+    margin-top: 1rem;
+  }
 }
 
 
