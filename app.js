@@ -145,6 +145,7 @@ app.get('/testing', asyncWrap(async (req, res) => {
         await listing.deleteMany({});
         await reviewSchema.deleteMany({});
 
+        // Map over data and enrich each entry with geometry + owner
         const updatedData = await Promise.all(data.map(async (obj) => {
             let query = obj.location;
             let geometry = { type: 'Point', coordinates: [] };
@@ -190,11 +191,18 @@ app.get('/', (req, res) => {
 // app.all('*', (req, res, next) => {
 //     next(new ExpressError(404, 'Page Not Found'));
 // });
+app.all('*', (req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.statusCode = 404;
+    next(err);
+});
+
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message } = err;
+    const { statusCode, message } = err;
     console.error('Error Occurred:', err);
     res.render('error', {message});
+    next();
 });
 
 //--------------------------------- Start the Server ---------------------------------//
